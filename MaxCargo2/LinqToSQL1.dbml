@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BDMaxCargo" Class="LinqToSQL1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=BDMaxCargo;Integrated Security=True" SettingsObjectName="MaxCargo2.Properties.Settings" SettingsPropertyName="BDMaxCargoConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Cliente" Member="Cliente">
+    <Type Name="Cliente">
+      <Column Name="IdCliente" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Direccion" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Nombre" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Razon" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="RUC" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IdDocu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Cliente_Ingreso" Member="Ingreso" ThisKey="IdCliente" OtherKey="IdCliente" Type="Ingreso" />
+      <Association Name="Cliente_Usuario" Member="Usuario" ThisKey="IdCliente" OtherKey="IdCliente" Type="Usuario" />
+      <Association Name="Documento_Cliente" Member="Documento" ThisKey="IdDocu" OtherKey="IdDocu" Type="Documento" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Documento" Member="Documento">
+    <Type Name="Documento">
+      <Column Name="IdDocu" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TipoDoc" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="NroDoc" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Association Name="Documento_Cliente" Member="Cliente" ThisKey="IdDocu" OtherKey="IdDocu" Type="Cliente" />
+      <Association Name="Documento_Egreso" Member="Egreso" ThisKey="IdDocu" OtherKey="IdDocu" Type="Egreso" />
+      <Association Name="Documento_Ingreso" Member="Ingreso" ThisKey="IdDocu" OtherKey="IdDocu" Type="Ingreso" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Egreso" Member="Egreso">
+    <Type Name="Egreso">
+      <Column Name="IdEgre" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MontoEgre" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TipoEgre" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdDocu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Egreso_Otro" Member="Otro" ThisKey="IdEgre" OtherKey="IdEgre" Type="Otro" />
+      <Association Name="Egreso_Trabajador" Member="Trabajador" ThisKey="IdEgre" OtherKey="IdEgre" Type="Trabajador" />
+      <Association Name="Egreso_Vehiculo" Member="Vehiculo" ThisKey="IdEgre" OtherKey="IdEgre" Type="Vehiculo" />
+      <Association Name="Documento_Egreso" Member="Documento" ThisKey="IdDocu" OtherKey="IdDocu" Type="Documento" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Ingreso" Member="Ingreso">
+    <Type Name="Ingreso">
+      <Column Name="IdIng" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdCliente" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Motivo" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Fecha" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="MontoIng" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdDocu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Cliente_Ingreso" Member="Cliente" ThisKey="IdCliente" OtherKey="IdCliente" Type="Cliente" IsForeignKey="true" />
+      <Association Name="Documento_Ingreso" Member="Documento" ThisKey="IdDocu" OtherKey="IdDocu" Type="Documento" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Otro" Member="Otro">
+    <Type Name="Otro">
+      <Column Name="IdOtro" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Motivo" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IdEgre" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Egreso_Otro" Member="Egreso" ThisKey="IdEgre" OtherKey="IdEgre" Type="Egreso" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Trabajador" Member="Trabajador">
+    <Type Name="Trabajador">
+      <Column Name="IdTrab" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Nombre" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="DNI" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="NroCuenta" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Cargo" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IdEgre" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Egreso_Trabajador" Member="Egreso" ThisKey="IdEgre" OtherKey="IdEgre" Type="Egreso" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Usuario" Member="Usuario">
+    <Type Name="Usuario">
+      <Column Name="IdUser" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="logeo" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="contraseña" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="NomCompleto" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IdCliente" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Cliente_Usuario" Member="Cliente" ThisKey="IdCliente" OtherKey="IdCliente" Type="Cliente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Vehiculo" Member="Vehiculo">
+    <Type Name="Vehiculo">
+      <Column Name="IdVehic" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Estado" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Modelo" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Placa" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Soat" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="IdEgre" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Egreso_Vehiculo" Member="Egreso" ThisKey="IdEgre" OtherKey="IdEgre" Type="Egreso" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
